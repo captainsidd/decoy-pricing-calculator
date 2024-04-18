@@ -213,7 +213,7 @@ class Calculator extends Component {
           <ul>
             {tierDivs}
           </ul>
-          <button id="add-tier-button" disabled={!addingAllowed} onClick={this.handleAddTier}>Add Tier</button>
+          <button id="add-tier-button" disabled={!addingAllowed} onClick={this.handleAddTier}>Add Package</button>
           <HourlySlider onChange={this.updateHourlyRate} />
         </div>
       </div>
