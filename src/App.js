@@ -1,23 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
+import Calculator from './Calculator';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <nav className="navbar">
+        <div className="container">
+          <div className="logo">
+            <a href="https://www.harmonicdecisions.com"><img src="logo.png" alt="Harmonic Decisions"/></a>
+          </div>
+          <ul className="nav-links">
+            <li><a href="https://www.harmonicdecisions.com/how-does-the-pricing-calculator-work">How Does It Work?</a></li>
+            <li><a href="https://www.harmonicdecisions.com/the-decoy-effect">The Decoy Effect</a></li>
+          </ul>
+        </div>
+      </nav>
+      <Calculator></Calculator>
     </div>
   );
 }
