@@ -58,6 +58,26 @@ body {
   color: #ffffff;
 }
 
+.instructions-container-above {
+  width: 80%;
+  margin: 0 auto;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.instructions-heading-description {
+  width: 50%;
+  margin-left: 25%;
+  text-align: center;
+}
+
+.instructions-heading-instructions {
+  width: 50%;
+  margin-left: 25%;
+  text-align: left;
+}
+
 .calculator-heading {
   margin-top: 0;
   margin-bottom: 20px;
