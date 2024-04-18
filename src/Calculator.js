@@ -1,7 +1,14 @@
-import React, { Component } from 'react';
-import Tier from "./Tier";
+import React, { Component, Fragment } from 'react';
 import HourlySlider from './HourlySlider';
-import MarginSlider from './MarginSlider';
+
+function parseToFloat(str) {
+  const floatValue = parseFloat(str);
+  return isNaN(floatValue) ? 0 : floatValue;
+}
+
+function sanitizePrice(price) {
+  return isNaN(price) ? 0 : Math.round(price * 100) / 100;
+}
 
 /**
  * Calculator displays Tiers, and exposes the ability to add and remove Tiers through buttons.
@@ -21,109 +28,193 @@ class Calculator extends Component {
         }
       ],
       nextTierId: 1, // ID for next Tier component
-      margin: 0
+      addingAllowed: true,
+      hourlyRate: 0,
+      targetId: 0
     };
   }
 
   // Add Tier
   handleAddTier = () => {
-    const { tiers, nextTierId } = this.state;
-    this.setState({
-      tiers: [...tiers, { id: nextTierId, hoursOfWork: 0, costOfMaterials: 0}],
-      nextTierId: nextTierId + 1 // Increment nextTierId
-    });
+    const { tiers, nextTierId, addingAllowed } = this.state;
+    const newTier = {
+      id: nextTierId,
+      hoursOfWork: 0,
+      costOfMaterials: 0
+    }
+    if (addingAllowed) {
+      this.setState({
+        tiers: [...tiers, newTier],
+        nextTierId: nextTierId + 1, // Increment nextTierId
+        // adding is only allowed if less than 6 tiers, 4 existing plus 1 new = 5
+        addingAllowed: tiers.length >= 4 ? false : true
+      });
+    }
   };
 
-  // Updates the data for a Tier in the Calculator state
-  handleTierDataUpdate = (tierId, newData) => {
-    this.setState(prevState => ({
-      tiers: prevState.tiers.map(tier => {
-        if (tier.id === tierId) {
-          return { ...tier, ...newData };
+  handleDataChange = (type, tierId, event) => {
+    switch (type) {
+      // if type is remove , remove the tierId from state.tiers
+      case 'remove':
+        const { tiers, targetId } = this.state;
+        if (tiers.length === 1) {
+          return;
         }
-        return tier;
-      })
-    }));
-  };
+        let newTargetId = targetId;
+        // if the tierId is the targetId, then switch the targetId to another tier
+        if (targetId === tierId) {
+          for (let index = 0; index < tiers.length; index++) {
+            const tier = tiers[index];
+            if (tierId !== tier.id) {
+              newTargetId = tier.id
+              break;
+            }
+          }
+        }
+        this.setState(prevState => ({
+          tiers: prevState.tiers.filter(tier => tier.id !== tierId),
+          targetId: newTargetId,
+          addingAllowed: true
+        }));
+        break;
+      // if type is hours , update state.tier.tierId with sanitized hours value
+      case 'hours':
+        const hours = parseToFloat(event.target.value);
+        this.setState(prevState => ({
+          tiers: prevState.tiers.map(tier => {
+            if (tier.id === tierId) {
+              return { ...tier, hoursOfWork: hours };
+            }
+            return tier;
+          })
+        }));
+        break;
+      // if type is cost , update state.tier.tierId with sanitized cost value
+      case 'cost':
+        const cost = parseToFloat(event.target.value);
+        this.setState(prevState => ({
+          tiers: prevState.tiers.map(tier => {
+            if (tier.id === tierId) {
+              return { ...tier, costOfMaterials: cost };
+            }
+            return tier;
+          })
+        }));
+        break;
+      // if type is target , update state.targetId to tierId
+      case 'target':
+        this.setState({ targetId: tierId});
+        break;
+      default:
+        return;
+    }
+
+  }
 
   // Updates the hourly rate for the Calculator
   updateHourlyRate = (event) => {
     this.setState({ hourlyRate: event.target.value });
   }
 
-  // Updates the minimum margin for the Calculator
-  updateMargin = (event) => {
-    this.setState({ margin: event.target.value });
-  }
-
   /**
    * Algorithm for setting the decoy prices.
    * @returns Updates the state for each tier to have the suggested prices.
    */
-  calculateDecoyPrices = () => {
-    const { tiers, hourlyRate, margin } = this.state;
-    var data = [] // {tier id: suggestedPrice}
-    tiers.forEach(tier => {
-      const costOfMaterials = parseFloat(tier.costOfMaterials);
-      const hoursOfWork = parseFloat(tier.hoursOfWork);
-      console.log(costOfMaterials)
-      console.log(hoursOfWork)
-      console.log(costOfMaterials + hoursOfWork * hourlyRate);
-      if (!tier.removed) {
-        data.push({
-          id: tier.id,
-          suggestedPrice: (costOfMaterials + hoursOfWork * hourlyRate) * (1 + margin / 100)
-        });
-      }
-    });
-    console.log(data)
-    /**
-     * if 3 products, boost middle (1)
-     * if 4 products, boost second highest (2)
-     * if 5 products, boost middle (2)
-     *
-     * boosting is done by increasing the price of the boosted tier by the margin
-     * and increasing the prices of adjacent products by half the margin.
-     */
-    const length = data.length
-    if (length >= 3 && length <= 5) {
-      var boostIndex = 2;
-      if (length === 3 || length === 5) {
-        boostIndex = Math.floor(data.length / 2);
-      }
-      console.log(data[boostIndex])
-      data[boostIndex].suggestedPrice = data[boostIndex].suggestedPrice * (1 + margin/100);
-      data[boostIndex - 1].suggestedPrice = data[boostIndex].suggestedPrice * (1 + margin/200);
-      data[boostIndex + 1].suggestedPrice = data[boostIndex].suggestedPrice * (1 + margin/200);
-    }
-    console.log(data)
-    this.setState(prevState => ({
-      tiers: prevState.tiers.map(tier => {
-        for (let index = 0; index < data.length; index++) {
-          if (data.id === tier.id) {
-            return { ...tier, suggestedPrice: data.suggestedPrice };
-          }
-        }
-        return tier;
-      })
+  calculateDecoyPrices = (tiers, hourlyRate, targetId) => {
+    const sortedTiers = tiers.map(tier => ({
+      id: tier.id,
+      price: tier.hoursOfWork * hourlyRate + tier.costOfMaterials
     }));
+    sortedTiers.sort((a, b) => a.price - b.price);
+    let targetIndex = 0;
+    for (let index = 0; index < sortedTiers.length; index++) {
+      const tier = sortedTiers[index];
+      if (tier.id === targetId) {
+        targetIndex = index;
+      }
+    }
+    const adjustmentFactor = 1 + 1 / sortedTiers.length;
+    if (sortedTiers.length >= 3) {
+      if (targetIndex === 0) {
+        sortedTiers[targetIndex + 1].price = sortedTiers[targetIndex + 1].price * adjustmentFactor;
+      } else if (targetIndex === sortedTiers.length - 1) {
+        sortedTiers[targetIndex - 1].price = sortedTiers[targetIndex - 1].price * adjustmentFactor;
+      } else {
+        sortedTiers[targetIndex - 1].price = sortedTiers[targetIndex - 1].price * adjustmentFactor;
+        sortedTiers[targetIndex + 1].price = sortedTiers[targetIndex + 1].price * adjustmentFactor;
+      }
+    }
+    const roundedTiers = sortedTiers.map(tier => ({
+      id: tier.id,
+      price: sanitizePrice(tier.price)
+    }));
+    return roundedTiers;
   }
 
+  findPrice = (suggestedPrices, tierId) => {
+    for (let index = 0; index < suggestedPrices.length; index++) {
+      const tier = suggestedPrices[index];
+      if (tier.id === tierId) {
+        return tier.price
+      }
+    }
+    return 0;
+  }
+
+
   render() {
-    const { tiers } = this.state;
+    const { tiers, hourlyRate, targetId, addingAllowed } = this.state;
+    // suggestedPrices is a list of price objects, each with an id and a price
+    const suggestedPrices = this.calculateDecoyPrices(tiers, hourlyRate, targetId);
     const tierDivs = tiers.map(tier => (
-      <Tier key={tier.id} id={tier.id} suggestedPrice={tier.suggestedPrice} onChange={this.handleTierDataUpdate} />
+      <Fragment key={tier.id}>
+        <li className="tier" id={tier.id}>
+          <div className='target-wrapper'>
+            <label>Target</label>
+            <input type="checkbox" id="target-checkbox" checked={tier.id === targetId} onChange={(event) => this.handleDataChange('target', tier.id, event)} />
+          </div>
+          <div className="inputs-wrapper">
+            <div className="input-pair">
+              <label htmlFor="hours-of-work">Hours of Work</label>
+              <input
+                type="number"
+                className="hours"
+                placeholder="Hours"
+                min={0.00}
+                step={0.5}
+                onChange={(event) => this.handleDataChange('hours', tier.id, event)}
+              />
+            </div>
+            <div className="input-pair">
+              <label htmlFor="cost-of-materials">Cost of Materials</label>
+              <input
+                type="number"
+                className="cost"
+                placeholder="Cost"
+                min={0.00}
+                step={0.01}
+                onChange={(event) => this.handleDataChange('cost', tier.id, event)}
+              />
+            </div>
+            <div className="input-pair">
+              <label htmlFor="suggested-pricing">Suggested Pricing</label>
+              <input type="text" className="suggested-pricing" readOnly value={this.findPrice(suggestedPrices, tier.id)} />
+            </div>
+          </div>
+          <button id="remove-tier-button" disabled={tiers.length === 1} onClick={() => this.handleDataChange('remove', tier.id, null)}>Remove</button>
+        </li>
+      </Fragment>
     ));
-    // console.log(this.state)
+
     return (
       <div className="page-content">
         <div className="calculator">
           <h1 className="calculator-heading">Decoy Pricing Calculator</h1>
-          {tierDivs}
-          <button id="add-tier-button" onClick={this.handleAddTier}>Add Tier</button>
-          <button id="calculate-button" onClick={this.calculateDecoyPrices}>Calculate</button>
+          <ul>
+            {tierDivs}
+          </ul>
+          <button id="add-tier-button" disabled={!addingAllowed} onClick={this.handleAddTier}>Add Tier</button>
           <HourlySlider onChange={this.updateHourlyRate} />
-          <MarginSlider onChange={this.updateMargin} />
         </div>
       </div>
     );
