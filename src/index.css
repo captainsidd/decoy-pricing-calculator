@@ -83,6 +83,21 @@ body {
   font-size: 16px;
 }
 
+.tier-mobile {
+  display: flex;
+  flex-direction: column;
+  /* Change to vertical layout */
+  align-items: flex-start;
+  /* Align items to start */
+  margin-bottom: 20px;
+}
+
+.tier-label-mobile {
+  width: 100%;
+  /* Full width */
+  margin-bottom: 10px;
+  /* Add margin bottom for separation */
+}
 .labels {
   display: flex;
   flex-direction: column;
@@ -124,6 +139,11 @@ body {
   background-color: #13568c;
 }
 
+#add-tier-button:disabled{
+  background-color: #000000;
+  color: #ffffff;
+}
+
 #remove-tier-button {
   background-color: #ffffff;
   color: #000000;
@@ -137,8 +157,9 @@ body {
   transition: background-color 0.3s;
 }
 
-#remove-tier-button:hover {
-  background-color: #13568c;
+#remove-tier-button:disabled {
+  background-color: #000000;
+  color: #ffffff;
 }
 
 #calculate-button {
@@ -257,4 +278,41 @@ body {
   /* Accent color */
   cursor: pointer;
   /* Add pointer cursor */
+}
+
+.target-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.target-wrapper label {
+  margin-right: 10px;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+/* Styling for the checkbox */
+.target-wrapper input[type="checkbox"] {
+  width: 20px;
+  /* Adjust width as needed */
+  height: 20px;
+  /* Adjust height as needed */
+  border-radius: 5px;
+  /* Rounded corners */
+  border: 1px solid #ccc;
+  /* Border color */
+  appearance: none;
+  /* Remove default checkbox styling */
+  -webkit-appearance: none;
+  /* Remove default checkbox styling for Safari */
+  background-color: #fff;
+  /* Checkbox background color */
+  cursor: pointer;
+  /* Cursor style */
+}
+
+/* Styling for the checked state of the checkbox */
+.target-wrapper input[type="checkbox"]:checked {
+  background-color: #1978cc;
+  /* Checkbox background color when checked */
 }
