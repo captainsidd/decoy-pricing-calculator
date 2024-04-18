@@ -26,4 +26,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### Deployment
 
-This app automatically deploys to Digital Ocean's App Platform.
+This app automatically deploys to Digital Ocean's App Platform. This can be found [here](https://cloud.digitalocean.com/apps/cd744dbd-866b-4578-87d3-30eb4df92ab5/deployments/bf2330e9-9baa-4405-a30a-c35f88bfb375?i=575140).
