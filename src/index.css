@@ -47,16 +47,6 @@ body {
   max-width: 65%;
   margin: 50px auto;
 }
-/*
-.calculator {
-  width: 80%;
-  margin: 0 auto;
-  padding: 40px;
-  background-color: #0b283a;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  color: #ffffff;
-} */
 
 .instructions-container-above {
   width: 80%;
@@ -78,70 +68,6 @@ body {
   text-align: left;
 }
 
-.calculator-heading {
-  margin-top: 0;
-  margin-bottom: 20px;
-  color: #000000;
-  font-size: 24px;
-  text-align: left;
-}
-
-.tier {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.tier-label {
-  width: 25%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 16px;
-}
-
-.tier-mobile {
-  display: flex;
-  flex-direction: column;
-  /* Change to vertical layout */
-  align-items: flex-start;
-  /* Align items to start */
-  margin-bottom: 20px;
-}
-
-.tier-label-mobile {
-  width: 100%;
-  /* Full width */
-  margin-bottom: 10px;
-  /* Add margin bottom for separation */
-}
-.labels {
-  display: flex;
-  flex-direction: column;
-}
-
-.labels label {
-  margin-bottom: 10px;
-}
-
-.inputs {
-  display: flex;
-  flex-direction: column;
-}
-
-.inputs input[type="number"],
-.inputs input[type="text"] {
-  width: 150px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 16px;
-}
-
 #add-tier-button {
   background-color: #1978cc;
   color: #ffffff;
@@ -159,7 +85,7 @@ body {
   background-color: #0b283a;
 }
 
-#add-tier-button:disabled{
+#add-tier-button:disabled {
   background-color: #000000;
   color: #ffffff;
 }
@@ -184,6 +110,38 @@ body {
 #remove-tier-button:disabled {
   background-color: #000000;
   color: #ffffff;
+}
+
+.calculator-heading {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #000000;
+  font-size: 24px;
+  text-align: left;
+}
+
+.labels {
+  display: flex;
+  flex-direction: column;
+}
+
+.labels label {
+  margin-bottom: 10px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputs input[type="number"],
+.inputs input[type="text"] {
+  width: 150px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 16px;
 }
 
 .input-pair {
@@ -322,4 +280,30 @@ body {
 .target-wrapper input[type="checkbox"]:checked {
   background-color: #1978cc;
   /* Checkbox background color when checked */
+}
+
+@media screen and (max-width: 600px) {
+  .tier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .leftside {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+@media screen and (min-width: 600px) {
+
+  .tier {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
 }

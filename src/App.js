@@ -22,7 +22,7 @@ function App() {
           <h2 className='instructions-heading'>Using the Decoy Pricing Calculator</h2>
           <ol className='instructions-heading-instructions'>
             <li><b>Identify the products/services you want to offer</b>: For each package, enter the hours of work and the cost of materials required.</li>
-            <li><b>Enter your hourly rate</b>. If you don't know your hourly rate, try this formula: <pre>($ Your annual basic salary + 30%) / 2000 hours</pre></li>
+            <li><b>Enter your hourly rate</b>. If you don't know your hourly rate, divide 150% of your desired annual salary by 2000 hours.</li>
             <li><b>Select your target package</b>: This is the package you want to incentivize people to buy. The price of other packages will be adjusted acccordingly.</li>
             <li><b>Find your suggested pricing!</b>: Under the hood, we're using a simple algorithm to suggest prices to maximize sales of your <b>Target</b> package relative to other packages. It may not be the case that the package that requires the most effort from you should be priced the highest!</li>
           </ol>
