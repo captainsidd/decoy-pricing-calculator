@@ -169,39 +169,43 @@ class Calculator extends Component {
     const tierDivs = tiers.map(tier => (
       <Fragment key={tier.id}>
         <li className="tier" id={tier.id}>
-          <div className='target-wrapper'>
-            <label>Target</label>
-            <input type="checkbox" id="target-checkbox" checked={tier.id === targetId} onChange={(event) => this.handleDataChange('target', tier.id, event)} />
+          <div className='leftside'>
+            <div className='target-wrapper'>
+              <label>Target</label>
+              <input type="checkbox" id="target-checkbox" checked={tier.id === targetId} onChange={(event) => this.handleDataChange('target', tier.id, event)} />
+            </div>
+            <button id="remove-tier-button" disabled={tiers.length === 1} onClick={() => this.handleDataChange('remove', tier.id, null)}>Remove</button>
           </div>
-          <div className="inputs-wrapper">
-            <div className="input-pair">
-              <label htmlFor="hours-of-work">Hours of Work</label>
-              <input
-                type="number"
-                className="hours"
-                placeholder="Hours"
-                min={0.00}
-                step={0.5}
-                onChange={(event) => this.handleDataChange('hours', tier.id, event)}
-              />
-            </div>
-            <div className="input-pair">
-              <label htmlFor="cost-of-materials">Cost of Materials</label>
-              <input
-                type="number"
-                className="cost"
-                placeholder="Cost"
-                min={0.00}
-                step={0.01}
-                onChange={(event) => this.handleDataChange('cost', tier.id, event)}
-              />
-            </div>
-            <div className="input-pair">
-              <label htmlFor="suggested-pricing">Suggested Pricing</label>
-              <input type="text" className="suggested-pricing" readOnly value={this.findPrice(suggestedPrices, tier.id)} />
+          <div className='leftside'>
+            <div className="inputs-wrapper">
+              <div className="input-pair">
+                <label htmlFor="hours-of-work">Hours of Work</label>
+                <input
+                  type="number"
+                  className="hours"
+                  placeholder="Hours"
+                  min={0.00}
+                  step={0.5}
+                  onChange={(event) => this.handleDataChange('hours', tier.id, event)}
+                />
+              </div>
+              <div className="input-pair">
+                <label htmlFor="cost-of-materials">Cost of Materials</label>
+                <input
+                  type="number"
+                  className="cost"
+                  placeholder="Cost"
+                  min={0.00}
+                  step={0.01}
+                  onChange={(event) => this.handleDataChange('cost', tier.id, event)}
+                />
+              </div>
+              <div className="input-pair">
+                <label htmlFor="suggested-pricing">Suggested Pricing</label>
+                <input type="text" className="suggested-pricing" readOnly value={this.findPrice(suggestedPrices, tier.id)} />
+              </div>
             </div>
           </div>
-          <button id="remove-tier-button" disabled={tiers.length === 1} onClick={() => this.handleDataChange('remove', tier.id, null)}>Remove</button>
         </li>
       </Fragment>
     ));

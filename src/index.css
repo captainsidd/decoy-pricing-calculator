@@ -47,7 +47,7 @@ body {
   max-width: 65%;
   margin: 50px auto;
 }
-
+/*
 .calculator {
   width: 80%;
   margin: 0 auto;
@@ -56,7 +56,7 @@ body {
   border-radius: 20px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   color: #ffffff;
-}
+} */
 
 .instructions-container-above {
   width: 80%;
@@ -81,7 +81,7 @@ body {
 .calculator-heading {
   margin-top: 0;
   margin-bottom: 20px;
-  color: #ffffff;
+  color: #000000;
   font-size: 24px;
   text-align: left;
 }
@@ -143,46 +143,6 @@ body {
 }
 
 #add-tier-button {
-  background-color: #ffffff;
-  color: #000000;
-  border: none;
-  padding: 10px 20px;
-  margin: 10px;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-#add-tier-button:hover {
-  background-color: #13568c;
-}
-
-#add-tier-button:disabled{
-  background-color: #000000;
-  color: #ffffff;
-}
-
-#remove-tier-button {
-  background-color: #ffffff;
-  color: #000000;
-  border: none;
-  padding: 10px 20px;
-  margin: 10px;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-#remove-tier-button:disabled {
-  background-color: #000000;
-  color: #ffffff;
-}
-
-#calculate-button {
   background-color: #1978cc;
   color: #ffffff;
   border: none;
@@ -195,8 +155,35 @@ body {
   transition: background-color 0.3s;
 }
 
-#calculate-button:hover {
-  background-color: #13568c;
+#add-tier-button:hover {
+  background-color: #0b283a;
+}
+
+#add-tier-button:disabled{
+  background-color: #000000;
+  color: #ffffff;
+}
+
+#remove-tier-button {
+  background-color: #1978cc;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#remove-tier-button:hover {
+  background-color: #0b283a;
+}
+
+#remove-tier-button:disabled {
+  background-color: #000000;
+  color: #ffffff;
 }
 
 .input-pair {
@@ -214,7 +201,7 @@ body {
   text-align: right;
   /* Right-align */
   font-size: 16px;
-  color: #ffffff;
+  color: #000000;
 }
 
 .input-pair input[type="number"],
@@ -230,7 +217,7 @@ body {
 
 .input-pair input[type="text"][readonly] {
   background-color: transparent;
-  color: #ffffff;
+  color: #000000;
   cursor: not-allowed;
 }
 
@@ -245,7 +232,7 @@ body {
 .slider-container label {
   margin-right: 10px;
   font-size: 16px;
-  color: #ffffff;
+  color: #000000;
 }
 
 .slider-container input[type="range"] {
@@ -308,7 +295,7 @@ body {
 .target-wrapper label {
   margin-right: 10px;
   font-size: 16px;
-  color: #ffffff;
+  color: #000000;
 }
 
 /* Styling for the checkbox */
