@@ -174,7 +174,7 @@ class Calculator extends Component {
               <label>Target</label>
               <input type="checkbox" id="target-checkbox" checked={tier.id === targetId} onChange={(event) => this.handleDataChange('target', tier.id, event)} />
             </div>
-            <button id="remove-tier-button" disabled={tiers.length === 1} onClick={() => this.handleDataChange('remove', tier.id, null)}>Remove</button>
+            <button id="remove-tier-button" disabled={tiers.length === 1} onClick={() => this.handleDataChange('remove', tier.id, null)}>Remove Package</button>
           </div>
           <div className='leftside'>
             <div className="inputs-wrapper">
